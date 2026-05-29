@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mentors — Launchpad</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .mentor-hero { padding-block: clamp(4rem,8vw,7rem); background: var(--ink); color: #F5F2EC; }
+    .mentor-hero h1 { color: #F5F2EC; margin-bottom: 1rem; }
+    .mentor-hero p { color: rgba(245,242,236,0.6); font-size: 1.05rem; }
+    .filters { display: flex; flex-wrap: wrap; gap: 0.5rem; padding-block: 2rem; }
+    .filter-btn {
+      padding: 0.45rem 1rem;
+      border-radius: 100px;
+      font-size: 0.82rem; font-weight: 600;
+      border: 1.5px solid var(--border);
+      background: transparent;
+      color: var(--ink-2);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+    .filter-btn:hover { border-color: var(--amber); color: var(--amber-dark); }
+    .filter-btn.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    .mentors-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; }
+    .mentor-card { padding: 1.75rem; cursor: pointer; }
+    .mentor-card__header { display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.25rem; }
+    .mentor-avatar { width: 56px; height: 56px; border-radius: 50%; font-size: 1rem; flex-shrink: 0; }
+    .mentor-card__name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.05rem; line-height: 1.2; }
+    .mentor-card__title { font-size: 0.8rem; color: var(--ink-3); margin-top: 0.2rem; }
+    .mentor-card__bio { font-size: 0.88rem; color: var(--ink-2); line-height: 1.65; margin-bottom: 1.25rem; }
+    .mentor-card__footer { display: flex; align-items: center; justify-content: space-between; }
+    .availability { display: flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; color: #196B19; font-weight: 600; }
+    .availability::before { content: ''; width: 7px; height: 7px; background: #4CAF50; border-radius: 50%; }
+    .availability.full { color: var(--ink-3); }
+    .availability.full::before { background: var(--ink-3); }
+    /* MODAL */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; display: none; align-items: center; justify-content: center; padding: 1rem; backdrop-filter: blur(4px); }
+    .modal-overlay.open { display: flex; }
+    .modal { background: var(--bg-card); border-radius: var(--radius-xl); max-width: 560px; width: 100%; padding: 2.5rem; max-height: 90vh; overflow-y: auto; position: relative; }
+    .modal__close { position: absolute; top: 1.25rem; right: 1.25rem; width: 32px; height: 32px; border-radius: 50%; background: rgba(26,24,20,0.07); display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1.1rem; transition: background var(--transition); }
+    .modal__close:hover { background: rgba(26,24,20,0.14); }
+    .modal__header { display: flex; gap: 1.25rem; align-items: flex-start; margin-bottom: 1.75rem; }
+    .modal h3 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem; }
+    .modal__sub { font-size: 0.88rem; color: var(--ink-3); margin-top: 0.25rem; }
+    .modal__section { margin-bottom: 1.5rem; }
+    .modal__section h5 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-3); margin-bottom: 0.75rem; }
+    .expertise-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">
+      <div class="nav__logo-mark"><svg viewBox="0 0 18 18"><path d="M9 1L16 5.5V12.5L9 17L2 12.5V5.5L9 1Z"/></svg></div>
+      Launchpad
+    </a>
+    <div class="nav__links" id="navLinks">
+      <a href="programs.html">Programs</a>
+      <a href="mentors.html" class="active">Mentors</a>
+      <a href="community.html">Community</a>
+      <a href="blog.html">Blog</a>
+      <a href="about.html">About</a>
+      <a href="apply.html" class="nav__cta">Apply Now</a>
+    </div>
+    <div class="nav__hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<section class="mentor-hero">
+  <div class="container" style="display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:end;flex-wrap:wrap;">
+    <div>
+      <span class="label" style="color:rgba(245,242,236,0.4);display:block;margin-bottom:1rem;">120+ Expert Mentors</span>
+      <h1>Learn from founders<br>who've done it</h1>
+      <p class="mt-md">Our mentors have built, funded, and exited real companies. They give a damn about your success.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;min-width:220px;">
+      <div style="background:rgba(255,255,255,0.06);border-radius:var(--radius-md);padding:1.25rem;text-align:center;">
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;color:#F5F2EC;">120<span style="color:var(--amber)">+</span></div>
+        <div style="font-size:0.75rem;color:rgba(245,242,236,0.4);">Mentors</div>
+      </div>
+      <div style="background:rgba(255,255,255,0.06);border-radius:var(--radius-md);padding:1.25rem;text-align:center;">
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.8rem;color:#F5F2EC;">$<span style="color:var(--amber)">2B</span></div>
+        <div style="font-size:0.75rem;color:rgba(245,242,236,0.4);">Built & Raised</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="filters" id="filters">
+      <button class="filter-btn active" data-filter="all">All mentors</button>
+      <button class="filter-btn" data-filter="tech">Technology</button>
+      <button class="filter-btn" data-filter="climate">Climate</button>
+      <button class="filter-btn" data-filter="health">Health</button>
+      <button class="filter-btn" data-filter="fintech">Fintech</button>
+      <button class="filter-btn" data-filter="consumer">Consumer</button>
+      <button class="filter-btn" data-filter="b2b">B2B / SaaS</button>
+    </div>
+
+    <div class="mentors-grid" id="mentorsGrid"></div>
+  </div>
+</section>
+
+<!-- JOIN MENTOR CTA -->
+<section class="section--tight" style="background:var(--amber-light);border-top:1px solid rgba(232,160,32,0.2);">
+  <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;">
+    <div>
+      <h3>Are you a founder or operator?</h3>
+      <p class="mt-sm text-muted">We're always looking for battle-tested mentors to join our network.</p>
+    </div>
+    <a href="apply.html" class="btn btn--primary">Become a mentor</a>
+  </div>
+</section>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <button class="modal__close" onclick="document.getElementById('modalOverlay').classList.remove('open')">✕</button>
+    <div class="modal__header">
+      <div class="mentor-avatar avatar-initials" id="modalAvatar" style="width:72px;height:72px;font-size:1.3rem;"></div>
+      <div>
+        <h3 id="modalName"></h3>
+        <div class="modal__sub" id="modalTitle"></div>
+      </div>
+    </div>
+    <div class="modal__section">
+      <h5>About</h5>
+      <p id="modalBio" style="font-size:0.92rem;color:var(--ink-2);line-height:1.7;"></p>
+    </div>
+    <div class="modal__section">
+      <h5>Expertise</h5>
+      <div class="expertise-list" id="modalExpertise"></div>
+    </div>
+    <div class="modal__section">
+      <h5>Office Hours</h5>
+      <p id="modalHours" style="font-size:0.88rem;color:var(--ink-2);"></p>
+    </div>
+    <a href="apply.html" class="btn btn--primary w-full" style="justify-content:center;margin-top:1rem;">Request a session</a>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand">
+        <div class="nav__logo" style="color:#F5F2EC;margin-bottom:1rem;"><div class="nav__logo-mark"><svg viewBox="0 0 18 18"><path d="M9 1L16 5.5V12.5L9 17L2 12.5V5.5L9 1Z"/></svg></div>Launchpad</div>
+        <p>The accelerator for student founders who want to change the world before they graduate.</p>
+      </div>
+      <div class="footer__col"><h5>Program</h5><a href="programs.html">Curriculum</a><a href="apply.html">Apply</a><a href="mentors.html">Mentors</a></div>
+      <div class="footer__col"><h5>Community</h5><a href="community.html">Events</a><a href="blog.html">Blog</a></div>
+      <div class="footer__col"><h5>Company</h5><a href="about.html">About</a><a href="#">Contact</a></div>
+    </div>
+    <div class="footer__bottom"><span>© 2026 Launchpad.</span><div style="display:flex;gap:1.5rem;"><a href="#">Privacy</a><a href="#">Terms</a></div></div>
+  </div>
+</footer>
+
+<script>
+const MENTORS = [
+  { id:1, name:"Sasha Reeve", title:"Founder @ Kilo (acq. $80M) · Partner at Rethink Ventures", color:"#7C5CE8", initials:"SR", sector:"tech", bio:"Serial founder with two exits. Sasha built Kilo from a dorm room side project to an $80M acquisition in 5 years. Now invests in early-stage B2B SaaS and loves working with first-time technical founders.", expertise:["Product Strategy","B2B Sales","Fundraising","Team Building"], hours:"Tuesdays 3–5pm EST · 2 slots open" },
+  { id:2, name:"Dr. Leila Moradi", title:"CMO @ MedBridge · Stanford Med", color:"#E84040", initials:"LM", sector:"health", bio:"Healthcare operator with experience scaling two digital health platforms to Series B. Leila bridges the gap between clinical validation and commercial scale — rare in the health startup space.", expertise:["Digital Health","Regulatory Strategy","Clinical Trials","Go-To-Market"], hours:"Thursdays 11am–1pm EST · 1 slot open" },
+  { id:3, name:"Tomás Figueiredo", title:"CEO @ ClimateLedger (Launchpad alum) · Ex-BCG", color:"#20A060", initials:"TF", sector:"climate", bio:"Launchpad Cohort 3 alum who raised $3.4M and now gives back as a mentor. Tomás is especially passionate about climate fintech and sustainability reporting for SMBs.", expertise:["Climate Tech","Carbon Markets","Fundraising","Enterprise Sales"], hours:"Mondays 4–6pm EST · Full — join waitlist" },
+  { id:4, name:"Priya Nair", title:"CFO @ Clearbanc · Ex-Goldman, Ex-Stripe", color:"#E8A020", initials:"PN", sector:"fintech", bio:"15 years across finance and fintech. Priya has seen startups fail at the financial fundamentals more than anywhere else. She helps founders build models, manage burn, and understand term sheets.", expertise:["Financial Modeling","Fundraising","Term Sheets","Fintech Regulation"], hours:"Fridays 2–4pm EST · 2 slots open" },
+  { id:5, name:"Marcus Webb", title:"Growth Lead @ Duolingo · Ex-Facebook", color:"#0A85E0", initials:"MW", sector:"consumer", bio:"Marcus has run growth at companies with 100M+ users. He specialises in viral loops, retention, and the first 10,000 users — the phase most founders get completely wrong.", expertise:["Growth Hacking","Retention","Virality","Consumer Apps"], hours:"Wednesdays 10am–12pm EST · 3 slots open" },
+  { id:6, name:"Hana Yoshida", title:"CTO @ Fieldwork AI · ex-DeepMind", color:"#E84040", initials:"HY", sector:"tech", bio:"ML researcher turned founder. Hana built one of the first applied AI infrastructure companies and navigated the legal and ethical minefield early. Now she helps technical founders avoid the pitfalls.", expertise:["Machine Learning","AI Ethics","Technical Architecture","CTO Coaching"], hours:"Tuesdays 1–3pm EST · 2 slots open" },
+  { id:7, name:"Darius Abara", title:"Head of BD @ Intercom · Ex-Salesforce", color:"#5F4BB6", initials:"DA", sector:"b2b", bio:"Enterprise sales veteran who's closed $50M+ in B2B deals. Darius helps founders understand the enterprise buying process, champion the deal, and shorten sales cycles dramatically.", expertise:["Enterprise Sales","Partnerships","SaaS Pricing","Customer Success"], hours:"Thursdays 3–5pm EST · 1 slot open" },
+  { id:8, name:"Camille Faure", title:"Founder @ Arboris · Planet Labs alum", color:"#20A060", initials:"CF", sector:"climate", bio:"Climate hardware founder with deep expertise in satellite and sensor tech. Camille helps founders thinking about physical-world climate solutions — one of the hardest but most important areas to work in.", expertise:["Climate Hardware","Deep Tech","Grant Funding","EU Climate Policy"], hours:"Mondays 2–4pm EST · 2 slots open" },
+  { id:9, name:"James Okafor", title:"Partner @ Sequoia · Ex-founder ×3", color:"#E8A020", initials:"JO", sector:"fintech", bio:"3x founder, 2 exits, now investing full-time at Sequoia. James has a laser focus on unit economics and founder resilience. He's seen thousands of pitches and knows exactly what moves investors.", expertise:["VC Fundraising","Pitch Coaching","Unit Economics","Seed Stage"], hours:"Fridays 9–11am EST · 2 slots open" },
+];
+
+let activeFilter = 'all';
+
+function renderMentors() {
+  const grid = document.getElementById('mentorsGrid');
+  const filtered = activeFilter === 'all' ? MENTORS : MENTORS.filter(m => m.sector === activeFilter);
+  grid.innerHTML = filtered.map(m => `
+    <div class="card card--flat mentor-card animate-fadeup" onclick='openModal(${m.id})'>
+      <div class="mentor-card__header">
+        <div class="mentor-avatar avatar-initials" style="width:56px;height:56px;font-size:1rem;background:${m.color};">${m.initials}</div>
+        <div>
+          <div class="mentor-card__name">${m.name}</div>
+          <div class="mentor-card__title">${m.title}</div>
+        </div>
+      </div>
+      <p class="mentor-card__bio">${m.bio.substring(0,120)}…</p>
+      <div class="mentor-card__footer">
+        <div class="tags">${m.expertise.slice(0,2).map(e=>`<span class="tag">${e}</span>`).join('')}</div>
+        <div class="availability${m.hours.includes('Full')?'.full':''}">${m.hours.includes('Full')?'Waitlist only':'Open'}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openModal(id) {
+  const m = MENTORS.find(x => x.id === id);
+  document.getElementById('modalAvatar').textContent = m.initials;
+  document.getElementById('modalAvatar').style.background = m.color;
+  document.getElementById('modalName').textContent = m.name;
+  document.getElementById('modalTitle').textContent = m.title;
+  document.getElementById('modalBio').textContent = m.bio;
+  document.getElementById('modalExpertise').innerHTML = m.expertise.map(e=>`<span class="badge badge--muted">${e}</span>`).join('');
+  document.getElementById('modalHours').textContent = m.hours;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(e) { if(e.target === document.getElementById('modalOverlay')) document.getElementById('modalOverlay').classList.remove('open'); }
+
+document.getElementById('filters').addEventListener('click', e => {
+  if(!e.target.matches('.filter-btn')) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  activeFilter = e.target.dataset.filter;
+  renderMentors();
+});
+
+renderMentors();
+</script>
+</body>
+</html>

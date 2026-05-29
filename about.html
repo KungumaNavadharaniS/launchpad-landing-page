@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Launchpad</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .about-hero { padding-block: clamp(5rem,10vw,9rem); background: var(--bg); border-bottom: 1px solid var(--border); }
+    .big-quote { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(1.8rem, 4.5vw, 3.4rem); line-height: 1.1; letter-spacing: -0.03em; }
+    .big-quote em { color: var(--amber-dark); font-style: normal; position: relative; }
+    .values-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0; }
+    .value-item { padding: 2.5rem; border-right: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .value-item:nth-child(3n) { border-right: none; }
+    .value-num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 3rem; color: rgba(26,24,20,0.06); line-height: 1; margin-bottom: 0.75rem; }
+    .value-item h4 { margin-bottom: 0.5rem; }
+    .value-item p { font-size: 0.88rem; color: var(--ink-2); max-width: 28ch; }
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.5rem; }
+    .team-card { padding: 1.75rem; text-align: center; }
+    .team-card__avatar { width: 72px; height: 72px; margin: 0 auto 1rem; font-size: 1.2rem; }
+    .team-card__name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; margin-bottom: 0.2rem; }
+    .team-card__role { font-size: 0.8rem; color: var(--ink-3); margin-bottom: 0.75rem; }
+    .team-card__bio { font-size: 0.82rem; color: var(--ink-2); line-height: 1.6; }
+    .story-block { max-width: 680px; }
+    .story-block p { font-size: 1.05rem; line-height: 1.8; color: var(--ink-2); margin-bottom: 1.5rem; }
+    .story-block p strong { color: var(--ink); font-weight: 600; }
+    .press-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; }
+    .press-item { background: var(--bg-card); padding: 2rem; display: flex; align-items: center; justify-content: center; }
+    .press-name { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--ink-3); letter-spacing: -0.02em; }
+    .investors-strip { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; }
+    .investor-pill { padding: 0.6rem 1.25rem; background: var(--bg-card); border: 1px solid var(--border); border-radius: 100px; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.82rem; color: var(--ink-2); }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">
+      <div class="nav__logo-mark"><svg viewBox="0 0 18 18"><path d="M9 1L16 5.5V12.5L9 17L2 12.5V5.5L9 1Z"/></svg></div>
+      Launchpad
+    </a>
+    <div class="nav__links" id="navLinks">
+      <a href="programs.html">Programs</a>
+      <a href="mentors.html">Mentors</a>
+      <a href="community.html">Community</a>
+      <a href="blog.html">Blog</a>
+      <a href="about.html" class="active">About</a>
+      <a href="apply.html" class="nav__cta">Apply Now</a>
+    </div>
+    <div class="nav__hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<section class="about-hero">
+  <div class="container">
+    <span class="label label-amber" style="display:block;margin-bottom:2rem;">Founded 2019 · 8 cohorts</span>
+    <div class="big-quote" style="max-width:18ch;">
+      We believe the best founders are <em>still in school</em>.
+    </div>
+    <p style="margin-top:2rem;font-size:1.1rem;color:var(--ink-2);max-width:52ch;">Launchpad exists to give exceptional student founders the structure, funding, and community they need to build something real — before the world tells them to get a job first.</p>
+  </div>
+</section>
+
+<!-- OUR STORY -->
+<section class="section">
+  <div class="container" style="display:grid;grid-template-columns:260px 1fr;gap:5rem;align-items:start;">
+    <div>
+      <span class="label label-amber" style="display:block;margin-bottom:0.75rem;">Our story</span>
+      <h2 style="font-size:1.4rem;">From a dorm room to a global program</h2>
+    </div>
+    <div class="story-block">
+      <p>Launchpad started in 2019 when <strong>Nadia Osei</strong>, a Computer Science student at UCL, couldn't find a startup program that took student founders seriously. Every accelerator wanted traction. Every VC wanted a revenue history. Nobody cared about the best ideas — they cared about risk.</p>
+      <p>She built the first cohort herself. Eight teams. A borrowed meeting room. Five mentor calls over Zoom. Six months later, two of those companies had raised pre-seed rounds, and one was cash-flow positive.</p>
+      <p>Word spread. By Cohort 3, we had applicants from 40 countries. By Cohort 5, our first unicorn founder (yes, really) had graduated the program. Today, <strong>340+ founders</strong> have gone through Launchpad, raising a combined <strong>$42M</strong> and building companies across every sector.</p>
+      <p>We're still run by founders who remember what it felt like to have an idea nobody believed in. That's the whole point.</p>
+    </div>
+  </div>
+</section>
+
+<!-- VALUES -->
+<section class="section--tight" style="border-top:1px solid var(--border);">
+  <div class="container">
+    <div class="section-heading text-center">
+      <span class="label label-amber">What we believe</span>
+      <h2>Our values</h2>
+    </div>
+    <div class="values-grid">
+      <div class="value-item">
+        <div class="value-num">01</div>
+        <h4>Build before you're ready</h4>
+        <p>Waiting for the perfect idea is how you end up with none. Ship, learn, iterate.</p>
+      </div>
+      <div class="value-item">
+        <div class="value-num">02</div>
+        <h4>Talk to customers obsessively</h4>
+        <p>No amount of whiteboard thinking beats one honest conversation with your target user.</p>
+      </div>
+      <div class="value-item">
+        <div class="value-item" style="padding:0;border:none;"><!-- fix -->
+        <div class="value-num">03</div>
+        <h4>Radical transparency</h4>
+        <p>We tell founders the hard truths. Good mentors do that. Bad ones tell you what you want to hear.</p>
+        </div>
+      </div>
+      <div class="value-item">
+        <div class="value-num">04</div>
+        <h4>Equity-free by design</h4>
+        <p>We take 0% equity. Your company is yours. We succeed when you succeed.</p>
+      </div>
+      <div class="value-item">
+        <div class="value-num">05</div>
+        <h4>Diversity is a performance variable</h4>
+        <p>The best founding teams look different, think differently, and come from everywhere.</p>
+      </div>
+      <div class="value-item" style="border-right:none;">
+        <div class="value-num">06</div>
+        <h4>Long-term thinking</h4>
+        <p>We care about whether you're still building in 5 years, not just whether you raised a round.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="section">
+  <div class="container">
+    <div class="section-heading">
+      <span class="label label-amber">The team</span>
+      <h2>Run by founders,<br>for founders</h2>
+    </div>
+    <div class="team-grid">
+      <div class="card card--flat team-card">
+        <div class="team-card__avatar avatar-initials" style="background:#7C5CE8;">NO</div>
+        <div class="team-card__name">Nadia Osei</div>
+        <div class="team-card__role">Founder & CEO</div>
+        <p class="team-card__bio">Founded Launchpad at UCL. Previously built and sold a SaaS company in the HR space.</p>
+      </div>
+      <div class="card card--flat team-card">
+        <div class="team-card__avatar avatar-initials" style="background:#E84040;">KM</div>
+        <div class="team-card__name">Kwame Mensah</div>
+        <div class="team-card__role">Head of Programs</div>
+        <p class="team-card__bio">Ex-Y Combinator program manager. Designed the Launchpad curriculum from Cohort 2 onwards.</p>
+      </div>
+      <div class="card card--flat team-card">
+        <div class="team-card__avatar avatar-initials" style="background:#20A060;">RL</div>
+        <div class="team-card__name">Rosa Lim</div>
+        <div class="team-card__role">Head of Community</div>
+        <p class="team-card__bio">Grew our Discord from 200 to 12,000 members. Former founder, 2x Launchpad mentor.</p>
+      </div>
+      <div class="card card--flat team-card">
+        <div class="team-card__avatar avatar-initials" style="background:#E8A020;">BT</div>
+        <div class="team-card__name">Bogdan Toma</div>
+        <div class="team-card__role">Head of Investor Relations</div>
+        <p class="team-card__bio">Manages the relationships with 60+ VC partners. Former associate at Index Ventures.</p>
+      </div>
+      <div class="card card--flat team-card">
+        <div class="team-card__avatar avatar-initials" style="background:#0A85E0;">SV</div>
+        <div class="team-card__name">Sofia Vargas</div>
+        <div class="team-card__role">Operations Lead</div>
+        <p class="team-card__bio">Keeps everything running across 4 time zones. Formerly at Stripe and Notion.</p>
+      </div>
+      <div class="card card--flat team-card">
+        <div class="team-card__avatar avatar-initials" style="background:#5F4BB6;">JH</div>
+        <div class="team-card__name">Jin Ho Park</div>
+        <div class="team-card__role">Marketing & Brand</div>
+        <p class="team-card__bio">Makes Launchpad look as good as the founders inside it. Ex-Figma design team.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BACKED BY -->
+<section class="section--tight" style="border-top:1px solid var(--border);">
+  <div class="container">
+    <span class="label label-amber" style="display:block;margin-bottom:1.5rem;">Backed & supported by</span>
+    <div class="investors-strip">
+      <div class="investor-pill">Sequoia Scout</div>
+      <div class="investor-pill">Rethink Ventures</div>
+      <div class="investor-pill">University of London</div>
+      <div class="investor-pill">Stripe</div>
+      <div class="investor-pill">AWS Activate</div>
+      <div class="investor-pill">Notion for Startups</div>
+      <div class="investor-pill">European Innovation Council</div>
+    </div>
+  </div>
+</section>
+
+<!-- AS SEEN IN -->
+<section class="section--tight" style="border-top:1px solid var(--border);">
+  <div class="container">
+    <span class="label" style="display:block;margin-bottom:1.5rem;color:var(--ink-3);">As seen in</span>
+    <div class="press-grid">
+      <div class="press-item"><div class="press-name">TechCrunch</div></div>
+      <div class="press-item"><div class="press-name">Forbes 30U30</div></div>
+      <div class="press-item"><div class="press-name">The Guardian</div></div>
+      <div class="press-item"><div class="press-name">Wired</div></div>
+      <div class="press-item"><div class="press-name">Bloomberg</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- JOIN BAND -->
+<section class="section">
+  <div class="container">
+    <div class="cta-band" style="background:var(--ink);color:#F5F2EC;border-radius:var(--radius-xl);padding:clamp(3rem,6vw,5rem);text-align:center;position:relative;overflow:hidden;">
+      <div style="position:absolute;inset:0;background:radial-gradient(circle at 50% 0%,rgba(232,160,32,0.15) 0%,transparent 60%);"></div>
+      <span class="label" style="color:rgba(245,242,236,0.4);display:block;margin-bottom:1rem;position:relative;">Join us</span>
+      <h2 style="color:#F5F2EC;position:relative;">Be part of the next chapter</h2>
+      <p style="color:rgba(245,242,236,0.6);margin-inline:auto;position:relative;" class="mt-md mb-xl">Whether you're a founder, mentor, or investor — there's a place for you in the Launchpad community.</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative;">
+        <a href="apply.html" class="btn btn--amber btn--lg">Apply as founder</a>
+        <a href="mentors.html" class="btn btn--outline btn--lg" style="color:#F5F2EC;border-color:rgba(245,242,236,0.25);">Become a mentor</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand"><div class="nav__logo" style="color:#F5F2EC;margin-bottom:1rem;"><div class="nav__logo-mark"><svg viewBox="0 0 18 18"><path d="M9 1L16 5.5V12.5L9 17L2 12.5V5.5L9 1Z"/></svg></div>Launchpad</div><p>The accelerator for student founders who want to change the world before they graduate.</p></div>
+      <div class="footer__col"><h5>Program</h5><a href="programs.html">Curriculum</a><a href="apply.html">Apply</a><a href="mentors.html">Mentors</a></div>
+      <div class="footer__col"><h5>Community</h5><a href="community.html">Events</a><a href="blog.html">Blog</a></div>
+      <div class="footer__col"><h5>Company</h5><a href="about.html">About</a><a href="#">Press</a><a href="#">Contact</a></div>
+    </div>
+    <div class="footer__bottom"><span>© 2026 Launchpad.</span></div>
+  </div>
+</footer>
+</body>
+</html>

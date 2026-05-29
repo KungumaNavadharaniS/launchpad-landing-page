@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Apply — Launchpad</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .apply-layout { display: grid; grid-template-columns: 320px 1fr; min-height: calc(100vh - 68px); }
+    .apply-sidebar { background: var(--ink); color: #F5F2EC; padding: 3rem 2rem; position: sticky; top: 68px; height: calc(100vh - 68px); overflow-y: auto; }
+    .apply-sidebar h2 { color: #F5F2EC; font-size: 1.6rem; margin-bottom: 0.75rem; }
+    .apply-sidebar p { color: rgba(245,242,236,0.55); font-size: 0.88rem; line-height: 1.7; margin-bottom: 2rem; }
+    .sidebar-steps { display: flex; flex-direction: column; gap: 0; }
+    .sidebar-step { display: flex; gap: 1rem; align-items: flex-start; padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .sidebar-step:last-child { border-bottom: none; }
+    .sidebar-step__num { width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: center; font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.72rem; flex-shrink: 0; color: rgba(245,242,236,0.5); transition: background var(--transition), color var(--transition); }
+    .sidebar-step.active .sidebar-step__num { background: var(--amber); color: var(--ink); }
+    .sidebar-step.done .sidebar-step__num { background: rgba(255,255,255,0.2); color: #F5F2EC; }
+    .sidebar-step.done .sidebar-step__num::after { content: '✓'; }
+    .sidebar-step__label { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.88rem; color: rgba(245,242,236,0.4); padding-top: 0.3rem; transition: color var(--transition); }
+    .sidebar-step.active .sidebar-step__label, .sidebar-step.done .sidebar-step__label { color: rgba(245,242,236,0.9); }
+    .sidebar-step__sub { font-size: 0.75rem; color: rgba(245,242,236,0.3); margin-top: 0.2rem; }
+    .deadline-box { margin-top: 2rem; background: rgba(232,160,32,0.1); border: 1px solid rgba(232,160,32,0.2); border-radius: var(--radius-md); padding: 1.25rem; }
+    .deadline-box .label { color: var(--amber); margin-bottom: 0.5rem; display: block; }
+    .deadline-box p { color: rgba(245,242,236,0.6); font-size: 0.82rem; margin: 0; }
+    .apply-main { padding: clamp(2rem,5vw,4rem); max-width: 640px; }
+    .form-step { display: none; }
+    .form-step.active { display: block; animation: fadeUp 0.4s ease both; }
+    .form-step h3 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; margin-bottom: 0.4rem; }
+    .form-step .step-desc { color: var(--ink-3); font-size: 0.9rem; margin-bottom: 2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-nav { display: flex; align-items: center; justify-content: space-between; margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+    .radio-group { display: flex; flex-direction: column; gap: 0.6rem; }
+    .radio-option { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border: 1.5px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; transition: border-color var(--transition), background var(--transition); }
+    .radio-option:hover { border-color: var(--amber); background: var(--amber-light); }
+    .radio-option input[type=radio] { accent-color: var(--amber); }
+    .radio-option label { cursor: pointer; font-size: 0.92rem; }
+    .char-count { font-size: 0.75rem; color: var(--ink-3); text-align: right; margin-top: 0.25rem; }
+    /* SUCCESS */
+    .success-screen { display: none; text-align: center; padding: 4rem 2rem; }
+    .success-screen.active { display: block; animation: fadeUp 0.5s ease both; }
+    .success-icon { width: 72px; height: 72px; background: var(--amber-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem; font-size: 2rem; }
+    @media (max-width: 768px) {
+      .apply-layout { grid-template-columns: 1fr; }
+      .apply-sidebar { position: static; height: auto; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">
+      <div class="nav__logo-mark"><svg viewBox="0 0 18 18"><path d="M9 1L16 5.5V12.5L9 17L2 12.5V5.5L9 1Z"/></svg></div>
+      Launchpad
+    </a>
+    <div class="nav__links" id="navLinks">
+      <a href="programs.html">Programs</a>
+      <a href="mentors.html">Mentors</a>
+      <a href="community.html">Community</a>
+      <a href="blog.html">Blog</a>
+      <a href="about.html">About</a>
+      <a href="apply.html" class="nav__cta">Apply Now</a>
+    </div>
+    <div class="nav__hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<div class="apply-layout">
+  <!-- SIDEBAR -->
+  <aside class="apply-sidebar">
+    <div class="label" style="color:rgba(245,242,236,0.35);margin-bottom:0.75rem;display:block;">Cohort 8 · Starts Sep 2026</div>
+    <h2>Apply to<br>Launchpad</h2>
+    <p>The application takes ~15 minutes. We read every submission personally.</p>
+    <div class="sidebar-steps" id="sidebarSteps">
+      <div class="sidebar-step active" data-step="1">
+        <div class="sidebar-step__num">1</div>
+        <div><div class="sidebar-step__label">About you</div><div class="sidebar-step__sub">Contact & background</div></div>
+      </div>
+      <div class="sidebar-step" data-step="2">
+        <div class="sidebar-step__num">2</div>
+        <div><div class="sidebar-step__label">Your idea</div><div class="sidebar-step__sub">The problem & solution</div></div>
+      </div>
+      <div class="sidebar-step" data-step="3">
+        <div class="sidebar-step__num">3</div>
+        <div><div class="sidebar-step__label">Your team</div><div class="sidebar-step__sub">Who's building this</div></div>
+      </div>
+      <div class="sidebar-step" data-step="4">
+        <div class="sidebar-step__num">4</div>
+        <div><div class="sidebar-step__label">Motivations</div><div class="sidebar-step__sub">Why you, why now</div></div>
+      </div>
+      <div class="sidebar-step" data-step="5">
+        <div class="sidebar-step__num">5</div>
+        <div><div class="sidebar-step__label">Review & submit</div><div class="sidebar-step__sub">Final check</div></div>
+      </div>
+    </div>
+    <div class="deadline-box">
+      <span class="label">Application deadline</span>
+      <div style="font-family:'Syne',sans-serif;font-weight:800;color:#F5F2EC;font-size:1.1rem;margin-bottom:0.4rem;">July 15, 2026</div>
+      <p>Decisions sent within 3 weeks of submission.</p>
+    </div>
+  </aside>
+
+  <!-- MAIN FORM -->
+  <main class="apply-main" id="applyMain">
+    <!-- STEP 1 -->
+    <div class="form-step active" id="step-1">
+      <div class="progress mb-lg"><div class="progress__fill" style="width:20%"></div></div>
+      <h3>Tell us about yourself</h3>
+      <p class="step-desc">Basic contact info and a little background.</p>
+      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+        <div class="form-row">
+          <div class="input-group"><label>First name *</label><input class="input" type="text" placeholder="Arjun" /></div>
+          <div class="input-group"><label>Last name *</label><input class="input" type="text" placeholder="Rao" /></div>
+        </div>
+        <div class="input-group"><label>Email address *</label><input class="input" type="email" placeholder="you@university.edu" /></div>
+        <div class="form-row">
+          <div class="input-group"><label>University / Institution *</label><input class="input" type="text" placeholder="Stanford University" /></div>
+          <div class="input-group"><label>Year of study</label>
+            <select class="input">
+              <option value="">Select…</option>
+              <option>Undergraduate Year 1</option>
+              <option>Undergraduate Year 2</option>
+              <option>Undergraduate Year 3</option>
+              <option>Undergraduate Year 4</option>
+              <option>Masters</option>
+              <option>PhD</option>
+              <option>Recent graduate (≤2 years)</option>
+            </select>
+          </div>
+        </div>
+        <div class="input-group"><label>LinkedIn profile URL</label><input class="input" type="url" placeholder="https://linkedin.com/in/yourname" /></div>
+        <div class="input-group">
+          <label>How did you hear about Launchpad?</label>
+          <select class="input">
+            <option>Select…</option>
+            <option>University career office</option>
+            <option>Friend / colleague</option>
+            <option>Social media (Twitter, LinkedIn)</option>
+            <option>Google / web search</option>
+            <option>Launchpad alumni</option>
+            <option>Event / conference</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-nav">
+        <span style="font-size:0.82rem;color:var(--ink-3);">Step 1 of 5</span>
+        <button class="btn btn--primary" onclick="goStep(2)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="form-step" id="step-2">
+      <div class="progress mb-lg"><div class="progress__fill" style="width:40%"></div></div>
+      <h3>What are you building?</h3>
+      <p class="step-desc">Tell us about the problem you're solving. Be specific — vague answers get filtered out.</p>
+      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+        <div class="input-group"><label>Startup name (or working title) *</label><input class="input" type="text" placeholder="e.g. Pavo AI" /></div>
+        <div class="input-group">
+          <label>Sector *</label>
+          <select class="input">
+            <option>Select…</option>
+            <option>AI / Machine Learning</option>
+            <option>Climate / Sustainability</option>
+            <option>Health / MedTech</option>
+            <option>EdTech</option>
+            <option>Fintech</option>
+            <option>B2B SaaS</option>
+            <option>Consumer</option>
+            <option>Deep Tech / Hardware</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label>Describe the problem in one sentence *</label>
+          <input class="input" type="text" placeholder="e.g. Secondary students in underserved areas have no access to quality tutoring." />
+        </div>
+        <div class="input-group">
+          <label>Describe your solution *</label>
+          <textarea class="input" rows="4" placeholder="In plain English, what are you building and how does it solve the problem?" id="solutionTA" oninput="document.getElementById('solCount').textContent=this.value.length+'/500'"></textarea>
+          <div class="char-count" id="solCount">0/500</div>
+        </div>
+        <div class="input-group">
+          <label>What stage are you at?</label>
+          <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="stage" id="s1" value="idea" /><label for="s1">Just an idea — no product yet</label></div>
+            <div class="radio-option"><input type="radio" name="stage" id="s2" value="prototype" /><label for="s2">Prototype / MVP built</label></div>
+            <div class="radio-option"><input type="radio" name="stage" id="s3" value="revenue" /><label for="s3">Some revenue / paying customers</label></div>
+            <div class="radio-option"><input type="radio" name="stage" id="s4" value="funded" /><label for="s4">Pre-seed funded</label></div>
+          </div>
+        </div>
+      </div>
+      <div class="form-nav">
+        <button class="btn btn--outline" onclick="goStep(1)">← Back</button>
+        <button class="btn btn--primary" onclick="goStep(3)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="form-step" id="step-3">
+      <div class="progress mb-lg"><div class="progress__fill" style="width:60%"></div></div>
+      <h3>Your team</h3>
+      <p class="step-desc">We invest in teams, not just ideas. Tell us who's building this and why.</p>
+      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+        <div class="input-group">
+          <label>Team size *</label>
+          <select class="input">
+            <option>Solo founder</option>
+            <option>2 co-founders</option>
+            <option>3 co-founders</option>
+            <option>4+ people</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label>Describe your team's relevant skills and background *</label>
+          <textarea class="input" rows="4" placeholder="e.g. I'm a CS student with 2 years of ML research. My co-founder is a pre-med student with experience in the target market." id="teamTA" oninput="document.getElementById('teamCount').textContent=this.value.length+'/400'"></textarea>
+          <div class="char-count" id="teamCount">0/400</div>
+        </div>
+        <div class="input-group">
+          <label>Do you have any notable achievements? (optional)</label>
+          <textarea class="input" rows="3" placeholder="Hackathon wins, previous companies, research published, etc."></textarea>
+        </div>
+        <div class="input-group">
+          <label>Co-founder emails (if applicable)</label>
+          <input class="input" type="text" placeholder="jane@example.com, tom@example.com" />
+          <div style="font-size:0.78rem;color:var(--ink-3);margin-top:0.3rem;">They'll receive a separate short form to fill in.</div>
+        </div>
+      </div>
+      <div class="form-nav">
+        <button class="btn btn--outline" onclick="goStep(2)">← Back</button>
+        <button class="btn btn--primary" onclick="goStep(4)">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="form-step" id="step-4">
+      <div class="progress mb-lg"><div class="progress__fill" style="width:80%"></div></div>
+      <h3>Why you, why now?</h3>
+      <p class="step-desc">This is the part we read most carefully. Be honest, be specific.</p>
+      <div style="display:flex;flex-direction:column;gap:1.25rem;">
+        <div class="input-group">
+          <label>Why are you the right person to solve this problem? *</label>
+          <textarea class="input" rows="5" id="whyTA" oninput="document.getElementById('whyCount').textContent=this.value.length+'/600'" placeholder="What's your personal connection to this problem? Why will you not give up on it?"></textarea>
+          <div class="char-count" id="whyCount">0/600</div>
+        </div>
+        <div class="input-group">
+          <label>What do you want to get from Launchpad specifically? *</label>
+          <textarea class="input" rows="4" placeholder="Be specific — 'mentorship' is not enough. What kind? From whom? On what?" id="wantTA" oninput="document.getElementById('wantCount').textContent=this.value.length+'/400'"></textarea>
+          <div class="char-count" id="wantCount">0/400</div>
+        </div>
+        <div class="input-group">
+          <label>Is there anything else you'd like us to know? (optional)</label>
+          <textarea class="input" rows="3" placeholder="Constraints, commitments, questions — anything on your mind."></textarea>
+        </div>
+        <div style="display:flex;align-items:flex-start;gap:0.75rem;padding:1rem;background:var(--amber-light);border-radius:var(--radius-md);border:1px solid rgba(232,160,32,0.2);">
+          <input type="checkbox" id="terms" style="margin-top:3px;accent-color:var(--amber-dark);" />
+          <label for="terms" style="font-size:0.85rem;color:var(--ink-2);cursor:pointer;">I confirm all information provided is accurate and I am currently enrolled as a student or recent graduate (within 2 years of graduation).</label>
+        </div>
+      </div>
+      <div class="form-nav">
+        <button class="btn btn--outline" onclick="goStep(3)">← Back</button>
+        <button class="btn btn--primary" onclick="goStep(5)">Review application →</button>
+      </div>
+    </div>
+
+    <!-- STEP 5 REVIEW -->
+    <div class="form-step" id="step-5">
+      <div class="progress mb-lg"><div class="progress__fill" style="width:100%"></div></div>
+      <h3>Review & submit</h3>
+      <p class="step-desc">Take one last look. You can go back and edit anything before submitting.</p>
+      <div class="card" style="margin-bottom:1.5rem;padding:1.5rem;">
+        <div class="label mb-sm">Program applying for</div>
+        <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;">Launchpad Accelerator — Cohort 8</div>
+        <div style="font-size:0.82rem;color:var(--ink-3);margin-top:0.25rem;">Starts September 2026 · 16 weeks · $10,000 grant · 0% equity</div>
+      </div>
+      <div class="card" style="margin-bottom:1.5rem;padding:1.5rem;">
+        <div class="label mb-md">What happens next</div>
+        <div style="display:flex;flex-direction:column;gap:0.75rem;">
+          <div style="display:flex;gap:1rem;align-items:flex-start;font-size:0.88rem;">
+            <div style="width:24px;height:24px;background:var(--amber-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:0.7rem;color:var(--amber-dark);flex-shrink:0;">1</div>
+            <div><strong>Confirmation email</strong> — You'll hear from us within 24 hours confirming receipt.</div>
+          </div>
+          <div style="display:flex;gap:1rem;align-items:flex-start;font-size:0.88rem;">
+            <div style="width:24px;height:24px;background:var(--amber-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:0.7rem;color:var(--amber-dark);flex-shrink:0;">2</div>
+            <div><strong>Review</strong> — Our team reads every application in full. No AI screening.</div>
+          </div>
+          <div style="display:flex;gap:1rem;align-items:flex-start;font-size:0.88rem;">
+            <div style="width:24px;height:24px;background:var(--amber-light);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:0.7rem;color:var(--amber-dark);flex-shrink:0;">3</div>
+            <div><strong>Interview</strong> — Shortlisted teams get a 30-min call. Decisions within 3 weeks.</div>
+          </div>
+        </div>
+      </div>
+      <div class="form-nav">
+        <button class="btn btn--outline" onclick="goStep(4)">← Edit answers</button>
+        <button class="btn btn--amber btn--lg" onclick="submitApp()">Submit application 🚀</button>
+      </div>
+    </div>
+
+    <!-- SUCCESS -->
+    <div class="success-screen" id="successScreen">
+      <div class="success-icon">🚀</div>
+      <h2 style="margin-bottom:1rem;">Application submitted!</h2>
+      <p style="margin-inline:auto;color:var(--ink-2);margin-bottom:2rem;">We've received your application for Cohort 8. Check your inbox for a confirmation email. We'll be in touch within 3 weeks.</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <a href="community.html" class="btn btn--primary">Join our Discord</a>
+        <a href="blog.html" class="btn btn--outline">Read founder stories</a>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+let currentStep = 1;
+function goStep(n) {
+  document.getElementById('step-' + currentStep).classList.remove('active');
+  document.querySelectorAll('.sidebar-step').forEach(s => {
+    const sn = parseInt(s.dataset.step);
+    s.classList.remove('active','done');
+    if(sn === n) s.classList.add('active');
+    else if(sn < n) s.classList.add('done');
+  });
+  currentStep = n;
+  document.getElementById('step-' + n).classList.add('active');
+  document.getElementById('applyMain').scrollIntoView({behavior:'smooth', block:'start'});
+}
+function submitApp() {
+  document.getElementById('step-5').classList.remove('active');
+  document.getElementById('successScreen').classList.add('active');
+  document.querySelectorAll('.sidebar-step').forEach(s => { s.classList.remove('active'); s.classList.add('done'); });
+}
+</script>
+</body>
+</html>

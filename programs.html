@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Programs — Launchpad</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .prog-hero { padding-block: clamp(4rem,8vw,7rem); background: var(--ink); color: #F5F2EC; }
+    .prog-hero h1 { color: #F5F2EC; }
+    .week-track { display: grid; grid-template-columns: 80px 1fr; gap: 0 1.5rem; }
+    .week-num { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 0.75rem; letter-spacing: 0.08em; color: var(--amber-dark); padding-top: 0.2rem; text-align: right; white-space: nowrap; }
+    .week-block { border-left: 2px solid var(--border); padding: 0 0 2rem 1.5rem; }
+    .week-block:last-child { border-left-color: transparent; }
+    .week-block h4 { font-family: 'Syne', sans-serif; font-weight: 700; margin-bottom: 0.4rem; }
+    .week-block p { font-size: 0.88rem; color: var(--ink-2); }
+    .week-block .tags { margin-top: 0.65rem; }
+    .bootcamp-card { border-radius: var(--radius-xl); overflow: hidden; border: 1px solid var(--border); }
+    .bootcamp-card__header { padding: 2rem; background: var(--ink); color: #F5F2EC; position: relative; }
+    .bootcamp-card__header::after { content: ''; position: absolute; inset:0; background: radial-gradient(circle at 80% 50%, rgba(232,160,32,0.1) 0%, transparent 60%); }
+    .bootcamp-card__header > * { position: relative; }
+    .bootcamp-card__header h3 { color: #F5F2EC; margin-bottom: 0.4rem; }
+    .bootcamp-card__body { padding: 2rem; background: var(--bg-card); }
+    .included-list li { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.88rem; color: var(--ink-2); margin-bottom: 0.5rem; }
+    .included-list li::before { content: '✓'; color: var(--amber-dark); font-weight: 700; flex-shrink: 0; }
+    .phase-pill {
+      display: inline-block;
+      padding: 0.2rem 0.75rem;
+      background: var(--amber-light);
+      color: var(--amber-dark);
+      border-radius: 100px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .tab-nav { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 3rem; }
+    .tab-btn { padding: 1rem 1.5rem; font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.85rem; color: var(--ink-3); border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer; transition: color var(--transition), border-color var(--transition); }
+    .tab-btn.active { color: var(--ink); border-bottom-color: var(--amber); }
+    .tab-btn:hover { color: var(--ink); }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .compare-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    .compare-table th { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3); padding: 0.75rem 1rem; border-bottom: 2px solid var(--border); text-align: left; }
+    .compare-table td { padding: 1rem; border-bottom: 1px solid var(--border); }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .compare-table td:not(:first-child) { text-align: center; }
+    .check { color: #196B19; font-weight: 700; }
+    .dash { color: var(--ink-3); }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">
+      <div class="nav__logo-mark"><svg viewBox="0 0 18 18"><path d="M9 1L16 5.5V12.5L9 17L2 12.5V5.5L9 1Z"/></svg></div>
+      Launchpad
+    </a>
+    <div class="nav__links" id="navLinks">
+      <a href="programs.html" class="active">Programs</a>
+      <a href="mentors.html">Mentors</a>
+      <a href="community.html">Community</a>
+      <a href="blog.html">Blog</a>
+      <a href="about.html">About</a>
+      <a href="apply.html" class="nav__cta">Apply Now</a>
+    </div>
+    <div class="nav__hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<section class="prog-hero">
+  <div class="container">
+    <span class="label" style="color:rgba(245,242,236,0.4);display:block;margin-bottom:1rem;">Our Programs</span>
+    <h1 style="max-width:16ch;">16 weeks of<br>relentless building</h1>
+    <p class="mt-md" style="color:rgba(245,242,236,0.6);font-size:1.05rem;max-width:50ch;">Three program tracks for wherever you are in your journey — from pre-idea to post-seed.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="tab-nav" id="tabNav">
+      <button class="tab-btn active" data-tab="accelerator">Accelerator</button>
+      <button class="tab-btn" data-tab="bootcamp">Bootcamps</button>
+      <button class="tab-btn" data-tab="compare">Compare programs</button>
+    </div>
+
+    <!-- ACCELERATOR TAB -->
+    <div class="tab-content active" id="tab-accelerator">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start;">
+        <div>
+          <div class="section-heading" style="margin-bottom:2.5rem;">
+            <span class="label label-amber">The flagship program</span>
+            <h2>The Accelerator</h2>
+            <p>Our 16-week, cohort-based flagship. For serious teams ready to build a company.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem;">
+            <div class="card card--amber" style="padding:1.25rem;">
+              <div class="label label-amber mb-sm">Duration</div>
+              <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;">16 weeks</div>
+            </div>
+            <div class="card card--amber" style="padding:1.25rem;">
+              <div class="label label-amber mb-sm">Grant</div>
+              <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;">$10,000</div>
+            </div>
+            <div class="card card--amber" style="padding:1.25rem;">
+              <div class="label label-amber mb-sm">Spots</div>
+              <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;">20 teams</div>
+            </div>
+            <div class="card card--amber" style="padding:1.25rem;">
+              <div class="label label-amber mb-sm">Equity</div>
+              <div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;">0%</div>
+            </div>
+          </div>
+          <a href="apply.html" class="btn btn--primary btn--lg">Apply for Cohort 8</a>
+        </div>
+        <div>
+          <div class="week-track">
+            <div class="week-num">Wk 1–2</div>
+            <div class="week-block">
+              <div class="phase-pill">Phase 1: Foundations</div>
+              <h4>Discovery & Team Formation</h4>
+              <p>Structured problem interviews, team dynamics workshops, and mentor matching.</p>
+              <div class="tags"><span class="tag">Problem Interviews</span><span class="tag">ICP</span><span class="tag">Team Dynamics</span></div>
+            </div>
+            <div class="week-num">Wk 3–6</div>
+            <div class="week-block">
+              <div class="phase-pill">Phase 2: Build</div>
+              <h4>MVP Sprint</h4>
+              <p>Weekly product sprints. Ship something real by week 6. Design, code, or both.</p>
+              <div class="tags"><span class="tag">Product Design</span><span class="tag">Prototyping</span><span class="tag">User Testing</span></div>
+            </div>
+            <div class="week-num">Wk 7–10</div>
+            <div class="week-block">
+              <div class="phase-pill">Phase 3: Validate</div>
+              <h4>100 Customer Conversations</h4>
+              <p>The hardest phase. Talk to 100 users. Get your first 10 paying customers.</p>
+              <div class="tags"><span class="tag">Customer Discovery</span><span class="tag">Pricing</span><span class="tag">Sales</span></div>
+            </div>
+            <div class="week-num">Wk 11–14</div>
+            <div class="week-block">
+              <div class="phase-pill">Phase 4: Scale</div>
+              <h4>Growth & Fundraising Prep</h4>
+              <p>Growth playbooks, hiring principles, and building your pitch from data.</p>
+              <div class="tags"><span class="tag">Growth</span><span class="tag">Hiring</span><span class="tag">Pitch Deck</span></div>
+            </div>
+            <div class="week-num">Wk 15–16</div>
+            <div class="week-block">
+              <div class="phase-pill">Phase 5: Demo Day</div>
+              <h4>Investor Presentations</h4>
+              <p>Live Demo Day with 100+ investors. The beginning of your fundraise.</p>
+              <div class="tags"><span class="tag">Demo Day</span><span class="tag">Investor Meetings</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOOTCAMP TAB -->
+    <div class="tab-content" id="tab-bootcamp">
+      <div class="grid-3">
+        <div class="bootcamp-card animate-fadeup delay-1">
+          <div class="bootcamp-card__header">
+            <div class="badge badge--amber mb-md">4 Days · Intensive</div>
+            <h3>Zero to One</h3>
+            <p style="color:rgba(245,242,236,0.6);font-size:0.88rem;margin-top:0.4rem;">For pre-idea founders. Turn a vague hunch into a validated concept with real customer signal.</p>
+          </div>
+          <div class="bootcamp-card__body">
+            <ul class="included-list">
+              <li>Problem ideation frameworks</li>
+              <li>Rapid customer interview techniques</li>
+              <li>Jobs-to-be-done workshop</li>
+              <li>Concept validation scorecard</li>
+              <li>Certificate of completion</li>
+            </ul>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:1.5rem;">
+              <div><div class="label">Investment</div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;margin-top:0.2rem;">$299</div></div>
+              <a href="apply.html" class="btn btn--primary btn--sm">Enrol</a>
+            </div>
+          </div>
+        </div>
+        <div class="bootcamp-card animate-fadeup delay-2">
+          <div class="bootcamp-card__header" style="background:#1D2035;">
+            <div class="badge badge--amber mb-md">2 Days · Weekend</div>
+            <h3>Pitch Perfect</h3>
+            <p style="color:rgba(245,242,236,0.6);font-size:0.88rem;margin-top:0.4rem;">For teams preparing to raise. Build a bulletproof deck and practice with real investors.</p>
+          </div>
+          <div class="bootcamp-card__body">
+            <ul class="included-list">
+              <li>Narrative structure for fundraising</li>
+              <li>Live deck critique sessions</li>
+              <li>2x mock investor Q&A sessions</li>
+              <li>Investor feedback report</li>
+              <li>Post-bootcamp 1-on-1 coaching call</li>
+            </ul>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:1.5rem;">
+              <div><div class="label">Investment</div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;margin-top:0.2rem;">$499</div></div>
+              <a href="apply.html" class="btn btn--primary btn--sm">Enrol</a>
+            </div>
+          </div>
+        </div>
+        <div class="bootcamp-card animate-fadeup delay-3">
+          <div class="bootcamp-card__header" style="background:#0A3020;">
+            <div class="badge badge--amber mb-md">3 Days · Hands-on</div>
+            <h3>Growth Sprint</h3>
+            <p style="color:rgba(245,242,236,0.6);font-size:0.88rem;margin-top:0.4rem;">Post-launch? Break through your growth ceiling with a structured sprint methodology.</p>
+          </div>
+          <div class="bootcamp-card__body">
+            <ul class="included-list">
+              <li>Growth model diagnosis</li>
+              <li>Acquisition channel experiments</li>
+              <li>Retention and activation audit</li>
+              <li>30-day experiment backlog</li>
+              <li>Metrics dashboard template</li>
+            </ul>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-top:1.5rem;">
+              <div><div class="label">Investment</div><div style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;margin-top:0.2rem;">$399</div></div>
+              <a href="apply.html" class="btn btn--primary btn--sm">Enrol</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPARE TAB -->
+    <div class="tab-content" id="tab-compare">
+      <div class="card" style="padding:0;overflow:hidden;">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Accelerator</th>
+              <th>Zero to One</th>
+              <th>Pitch Perfect</th>
+              <th>Growth Sprint</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Duration</td><td>16 weeks</td><td>4 days</td><td>2 days</td><td>3 days</td></tr>
+            <tr><td>Grant / funding</td><td>$10,000</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td></tr>
+            <tr><td>1-on-1 mentor</td><td class="check">✓</td><td class="dash">—</td><td class="check">✓</td><td class="dash">—</td></tr>
+            <tr><td>Investor Demo Day</td><td class="check">✓</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td></tr>
+            <tr><td>Alumni network access</td><td class="check">✓ lifetime</td><td class="check">✓</td><td class="check">✓</td><td class="check">✓</td></tr>
+            <tr><td>Cloud & SaaS credits</td><td>$50,000+</td><td class="dash">—</td><td class="dash">—</td><td class="dash">—</td></tr>
+            <tr><td>Equity taken</td><td>0%</td><td>0%</td><td>0%</td><td>0%</td></tr>
+            <tr><td>Cost</td><td style="color:#196B19;font-weight:600;">Free</td><td>$299</td><td>$499</td><td>$399</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mt-xl text-center">
+        <p class="text-muted mb-md" style="font-size:0.9rem;">Not sure which is right for you?</p>
+        <a href="apply.html" class="btn btn--primary">Talk to our team</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand"><div class="nav__logo" style="color:#F5F2EC;margin-bottom:1rem;"><div class="nav__logo-mark"><svg viewBox="0 0 18 18"><path d="M9 1L16 5.5V12.5L9 17L2 12.5V5.5L9 1Z"/></svg></div>Launchpad</div><p>The accelerator for student founders who want to change the world before they graduate.</p></div>
+      <div class="footer__col"><h5>Program</h5><a href="programs.html">Curriculum</a><a href="apply.html">Apply</a></div>
+      <div class="footer__col"><h5>Community</h5><a href="community.html">Events</a><a href="blog.html">Blog</a></div>
+      <div class="footer__col"><h5>Company</h5><a href="about.html">About</a><a href="#">Contact</a></div>
+    </div>
+    <div class="footer__bottom"><span>© 2026 Launchpad.</span></div>
+  </div>
+</footer>
+
+<script>
+document.getElementById('tabNav').addEventListener('click', e => {
+  if(!e.target.matches('.tab-btn')) return;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  e.target.classList.add('active');
+  document.getElementById('tab-' + e.target.dataset.tab).classList.add('active');
+});
+</script>
+</body>
+</html>

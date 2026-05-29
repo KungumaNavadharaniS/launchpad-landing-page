@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — Launchpad</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .blog-hero { padding-block: clamp(4rem,8vw,7rem); background: var(--ink); color: #F5F2EC; }
+    .blog-hero h1 { color: #F5F2EC; }
+    .featured-post { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; padding: 2.5rem; border-radius: var(--radius-xl); border: 1px solid var(--border); background: var(--bg-card); margin-bottom: 3rem; transition: box-shadow var(--transition), transform var(--transition); }
+    .featured-post:hover { box-shadow: 0 16px 48px rgba(26,24,20,0.1); transform: translateY(-3px); }
+    .featured-img { aspect-ratio: 4/3; border-radius: var(--radius-lg); background: var(--ink); display: flex; align-items: center; justify-content: center; }
+    .featured-img span { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 4rem; opacity: 0.15; color: var(--amber); }
+    .featured-post .badge { margin-bottom: 1rem; }
+    .featured-post h2 { font-size: clamp(1.4rem,3vw,2rem); margin-bottom: 0.75rem; }
+    .featured-post p { font-size: 0.92rem; color: var(--ink-2); margin-bottom: 1.5rem; }
+    .post-meta { display: flex; align-items: center; gap: 1rem; font-size: 0.78rem; color: var(--ink-3); }
+    .post-meta .avatar-initials { width: 28px; height: 28px; font-size: 0.6rem; }
+    .posts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+    .post-card { padding: 0; overflow: hidden; }
+    .post-card__thumb { aspect-ratio: 16/9; background: var(--ink); display: flex; align-items: center; justify-content: center; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+    .post-card__thumb span { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 3rem; opacity: 0.12; color: var(--amber); }
+    .post-card__body { padding: 1.5rem; }
+    .post-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; line-height: 1.3; }
+    .post-card p { font-size: 0.85rem; color: var(--ink-2); margin-bottom: 1rem; }
+    .cat-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 2.5rem; }
+    .cat-btn { padding: 0.4rem 1rem; border-radius: 100px; font-size: 0.8rem; font-weight: 600; border: 1.5px solid var(--border); background: transparent; color: var(--ink-2); cursor: pointer; transition: all var(--transition); }
+    .cat-btn.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+    .cat-btn:hover:not(.active) { border-color: var(--amber); color: var(--amber-dark); }
+    .newsletter-box { background: var(--amber-light); border: 1px solid rgba(232,160,32,0.25); border-radius: var(--radius-xl); padding: 3rem; text-align: center; margin-top: 4rem; }
+    .newsletter-box h3 { margin-bottom: 0.5rem; }
+    .newsletter-box p { color: var(--ink-2); font-size: 0.9rem; margin-bottom: 1.5rem; margin-inline: auto; }
+    .newsletter-form { display: flex; gap: 0.75rem; max-width: 440px; margin-inline: auto; }
+    .newsletter-form input { flex: 1; }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav__inner">
+    <a href="index.html" class="nav__logo">
+      <div class="nav__logo-mark"><svg viewBox="0 0 18 18"><path d="M9 1L16 5.5V12.5L9 17L2 12.5V5.5L9 1Z"/></svg></div>
+      Launchpad
+    </a>
+    <div class="nav__links" id="navLinks">
+      <a href="programs.html">Programs</a>
+      <a href="mentors.html">Mentors</a>
+      <a href="community.html">Community</a>
+      <a href="blog.html" class="active">Blog</a>
+      <a href="about.html">About</a>
+      <a href="apply.html" class="nav__cta">Apply Now</a>
+    </div>
+    <div class="nav__hamburger" onclick="document.getElementById('navLinks').classList.toggle('open')"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<section class="blog-hero">
+  <div class="container">
+    <span class="label" style="color:rgba(245,242,236,0.4);display:block;margin-bottom:1rem;">Insights, stories, tactics</span>
+    <h1>The Launchpad Journal</h1>
+    <p class="mt-md" style="color:rgba(245,242,236,0.6);font-size:1.05rem;">Real stories from real founders. No fluff, no hype — just what it actually takes to build.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <!-- FEATURED -->
+    <a href="#" class="featured-post animate-fadeup">
+      <div class="featured-img"><span>✦</span></div>
+      <div>
+        <div class="badge badge--amber">Founder Story</div>
+        <h2>How Pavo AI went from a research paper to $1.2M in 9 months</h2>
+        <p>Arjun Rao talks about the moment he realised his university ML project could become a company — and what happened when he finally sent his first cold email to an investor.</p>
+        <div class="post-meta">
+          <div class="avatar-initials" style="background:#7C5CE8;">AR</div>
+          <span><strong>Arjun Rao</strong> · May 12, 2026</span>
+          <span>8 min read</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- CATEGORY FILTER -->
+    <div class="cat-nav" id="catNav">
+      <button class="cat-btn active" data-cat="all">All posts</button>
+      <button class="cat-btn" data-cat="story">Founder stories</button>
+      <button class="cat-btn" data-cat="advice">Advice</button>
+      <button class="cat-btn" data-cat="fundraising">Fundraising</button>
+      <button class="cat-btn" data-cat="product">Product</button>
+      <button class="cat-btn" data-cat="growth">Growth</button>
+    </div>
+
+    <!-- POSTS GRID -->
+    <div class="posts-grid" id="postsGrid"></div>
+
+    <!-- NEWSLETTER -->
+    <div class="newsletter-box">
+      <h3>Get founder insights every week</h3>
+      <p>Join 8,200 founders and operators reading the Launchpad digest. No spam, ever.</p>
+      <div class="newsletter-form">
+        <input class="input" type="email" placeholder="your@email.com" />
+        <button class="btn btn--primary">Subscribe</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div class="footer__brand"><div class="nav__logo" style="color:#F5F2EC;margin-bottom:1rem;"><div class="nav__logo-mark"><svg viewBox="0 0 18 18"><path d="M9 1L16 5.5V12.5L9 17L2 12.5V5.5L9 1Z"/></svg></div>Launchpad</div><p>The accelerator for student founders who want to change the world before they graduate.</p></div>
+      <div class="footer__col"><h5>Program</h5><a href="programs.html">Curriculum</a><a href="apply.html">Apply</a></div>
+      <div class="footer__col"><h5>Community</h5><a href="community.html">Events</a><a href="blog.html">Blog</a></div>
+      <div class="footer__col"><h5>Company</h5><a href="about.html">About</a><a href="#">Contact</a></div>
+    </div>
+    <div class="footer__bottom"><span>© 2026 Launchpad.</span></div>
+  </div>
+</footer>
+
+<script>
+const POSTS = [
+  { cat:"advice", color:"#7C5CE8", emoji:"💡", title:"The 10 customer conversations that will save your startup", excerpt:"Before you write a single line of code, do these 10 interviews. Exactly these 10.", author:"Kwame Mensah", date:"May 8, 2026", read:"6 min" },
+  { cat:"fundraising", color:"#E8A020", emoji:"💰", title:"Reading a term sheet in 20 minutes: what actually matters", excerpt:"VCs count on you being confused. Here's what to look at first when you get a sheet.", author:"James Okafor", date:"May 3, 2026", read:"10 min" },
+  { cat:"story", color:"#20A060", emoji:"🌍", title:"ClimateLedger's path from idea to Series A — the unfiltered version", excerpt:"Tomás shares the painful parts nobody writes about: the co-founder fallout, the pivot, the near miss.", author:"Tomás Figueiredo", date:"Apr 28, 2026", read:"14 min" },
+  { cat:"product", color:"#E84040", emoji:"🔨", title:"The sprint that saved our company", excerpt:"We had 6 weeks of runway. We ran one product sprint. Here's exactly how we structured it.", author:"Hana Yoshida", date:"Apr 20, 2026", read:"7 min" },
+  { cat:"growth", color:"#0A85E0", emoji:"📈", title:"From 0 to 10,000 users without spending a dollar on ads", excerpt:"Marcus Webb breaks down the exact tactics he used to grow Pavo AI's early user base organically.", author:"Marcus Webb", date:"Apr 14, 2026", read:"9 min" },
+  { cat:"advice", color:"#5F4BB6", emoji:"🧠", title:"Why your pitch is failing in the first 90 seconds", excerpt:"We reviewed 400 pitches last year. The same 5 mistakes killed 80% of them immediately.", author:"Nadia Osei", date:"Apr 7, 2026", read:"5 min" },
+  { cat:"fundraising", color:"#E84040", emoji:"🤝", title:"Cold emailing investors: the template that got 40% reply rates", excerpt:"Not a template, actually — it's a mental model. But the result looks like a template.", author:"Priya Nair", date:"Mar 31, 2026", read:"4 min" },
+  { cat:"story", color:"#20A060", emoji:"🏥", title:"Building in healthcare as a first-time founder: what nobody told me", excerpt:"Priya Patel on navigating regulation, clinical partners, and getting your first hospital pilot.", author:"Priya Patel", date:"Mar 24, 2026", read:"11 min" },
+  { cat:"product", color:"#E8A020", emoji:"⚡", title:"How to run a weekly product review that actually changes things", excerpt:"The exact 60-minute format our top cohort companies use. Steal it.", author:"Rosa Lim", date:"Mar 17, 2026", read:"6 min" },
+];
+
+let activeCat = 'all';
+
+function renderPosts() {
+  const grid = document.getElementById('postsGrid');
+  const filtered = activeCat === 'all' ? POSTS : POSTS.filter(p => p.cat === activeCat);
+  grid.innerHTML = filtered.map(p => `
+    <a href="#" class="card card--flat post-card animate-fadeup" style="text-decoration:none;">
+      <div class="post-card__thumb" style="background:${p.color}22;"><span style="color:${p.color};opacity:0.6;font-size:2.5rem;">${p.emoji}</span></div>
+      <div class="post-card__body">
+        <div class="badge badge--muted mb-sm">${p.cat.charAt(0).toUpperCase()+p.cat.slice(1)}</div>
+        <h3>${p.title}</h3>
+        <p>${p.excerpt}</p>
+        <div class="post-meta">
+          <div class="avatar-initials" style="background:${p.color};width:24px;height:24px;font-size:0.55rem;">${p.author.split(' ').map(x=>x[0]).join('')}</div>
+          <span style="font-size:0.75rem;color:var(--ink-3);">${p.author} · ${p.date} · ${p.read}</span>
+        </div>
+      </div>
+    </a>
+  `).join('');
+}
+
+document.getElementById('catNav').addEventListener('click', e => {
+  if(!e.target.matches('.cat-btn')) return;
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  activeCat = e.target.dataset.cat;
+  renderPosts();
+});
+renderPosts();
+</script>
+</body>
+</html>
